@@ -5,67 +5,71 @@ import 'package:share/share.dart';
 
 import 'package:g4mediamobile/src/models/post_entity.dart';
 
-class PostCard extends StatelessWidget {
+class PostCardFull extends StatelessWidget {
   final PostEntity post;
 
-  PostCard(this.post);
+  PostCardFull(this.post);
   @override
   Widget build(BuildContext context) {
     return new InkWell(
       onTap: () => showItem(context, post),
       child: new Container(
-        // alignment: FractionalOffset.center,
-        margin: new EdgeInsets.fromLTRB(12.0, 16.0, 12.0, 16.0),
-        child: new Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              // margin: new EdgeInsets.only(right: 16.0),
-              child: new Hero(
-                tag: post.slug,
-                child: new Image.network(
-                  post.jetpack_featured_media_url,
-                  fit: BoxFit.cover,
-                  height: 196.0,
-                  width: MediaQuery.of(context).size.width,
-                ),
-              ),
+        height: MediaQuery.of(context).size.height * 0.5,
+        margin: new EdgeInsets.fromLTRB(0.0, 0, 0.0, 12.0),
+        decoration: new BoxDecoration(
+          // color: const Color(0xff7c94b6),
+          image: new DecorationImage(
+            fit: BoxFit.cover,
+            colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken),
+            image: new NetworkImage(
+              post.jetpack_featured_media_url,
+
             ),
+          ),
+        ),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            new Expanded(child: new Container()),
             new Container(
-              margin: new EdgeInsets.fromLTRB(0, 16.0, 0, 0),
+              margin: new EdgeInsets.fromLTRB(12, 0, 12, 12),
               child: new Text(
                 "${post.title}",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: new TextStyle(
+                  color: Colors.white,
                   fontFamily: 'SourceSansPro',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                new Column(
-
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[new Text("${post.date.split('T')[0]}")]
-                ),
-                new Expanded(child: new Container()),
-                new Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(CupertinoIcons.share),
-                        tooltip: 'Share',
-                        onPressed: () => {
-                        Share.share('post.excerpt')
-                        },
-                      ),
-                    ]
-                ),
-              ],
+            new Container(
+                margin: new EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: new Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[new Text("${post.date.split('T')[0]}", style: new TextStyle(color: Colors.white,))]
+                  ),
+                  new Expanded(child: new Container()),
+                  new Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(CupertinoIcons.share),
+                          color: Colors.white,
+                          tooltip: 'Share',
+                          onPressed: () => {
+                          Share.share('post.excerpt')
+                          },
+                        ),
+                      ]
+                  ),
+                ],
+              )
             )
           ],
         ),
@@ -108,7 +112,7 @@ void showItem(BuildContext context, PostEntity post) {
             child: new SizedBox.expand(
 //              child: new Hero(
 //                tag: post.slug,
-// TODO: Hero looks weird here? maybe find a way to make it better, e.g. load photo the opacity text
+
               child: new Container(
                 child: new ListView(
                   children: <Widget>[

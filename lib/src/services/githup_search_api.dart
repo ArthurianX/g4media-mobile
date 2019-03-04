@@ -38,16 +38,16 @@ class GithubApi {
   }
 }
 
-enum SearchResultKind { noTerm, empty, populated }
+enum SearchResultGithubKind { noTerm, empty, populated }
 
 class SearchResult {
-  final SearchResultKind kind;
+  final SearchResultGithubKind kind;
   final List<SearchResultItem> items;
 
   SearchResult(this.kind, this.items);
 
   factory SearchResult.noTerm() =>
-      new SearchResult(SearchResultKind.noTerm, <SearchResultItem>[]);
+      new SearchResult(SearchResultGithubKind.noTerm, <SearchResultItem>[]);
 
   factory SearchResult.fromJson(dynamic json) {
     final items = (json as List)
@@ -57,16 +57,16 @@ class SearchResult {
     }).toList();
 
     return new SearchResult(
-      items.isEmpty ? SearchResultKind.empty : SearchResultKind.populated,
+      items.isEmpty ? SearchResultGithubKind.empty : SearchResultGithubKind.populated,
       items,
     );
   }
 
-  bool get isPopulated => kind == SearchResultKind.populated;
+  bool get isPopulated => kind == SearchResultGithubKind.populated;
 
-  bool get isEmpty => kind == SearchResultKind.empty;
+  bool get isEmpty => kind == SearchResultGithubKind.empty;
 
-  bool get isNoTerm => kind == SearchResultKind.noTerm;
+  bool get isNoTerm => kind == SearchResultGithubKind.noTerm;
 }
 
 class SearchResultItem {

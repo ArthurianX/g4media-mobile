@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:g4mediamobile/src/components/donate_widget.dart';
+import 'package:g4mediamobile/src/screens/about.dart';
 import 'package:g4mediamobile/src/screens/home.dart';
 import 'package:g4mediamobile/src/screens/settings.dart';
 
@@ -28,7 +30,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           ListTile(
-            title: Text('Home'),
+            title: Text('Acasa'),
             onTap: () {
               Navigator.push(
                 context,
@@ -37,13 +39,39 @@ class _MyDrawerState extends State<MyDrawer> {
             },
           ),
           ListTile(
-            title: Text('Settings'),
+            title: Text('Despre Noi'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutScreen()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text('Setari'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SettingsScreen()),
               );
             },
+          ),
+          ListTile(
+            title: Text('Contact'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text(''),
+          ),
+          new Container(
+            alignment: FractionalOffset.bottomCenter,
+
+            child: DonateWidget()
           ),
         ],
       ),

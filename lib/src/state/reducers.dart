@@ -16,25 +16,29 @@ final searchReducer = combineReducers<G4Store>([
 
 
 G4Store _onLoad(G4Store state, SearchLoadingAction action) =>
-    G4Store.loading();
+    // G4Store.loading();
+    state.copyWith(isLoading: true);
 
 G4Store _onError(G4Store state, SearchErrorAction action) =>
-    G4Store.error();
+    state.copyWith(hasError: true);
 
 G4Store _onResult(G4Store state, SearchResultAction action) =>
-    G4Store(result: action.result, isLoading: false);
+    //G4Store(result: action.result, isLoading: false);
+    state.copyWith(result: action.result, isLoading: false);
 
 
 
 G4Store _onLoadPosts(G4Store state, FetchPostsLoadingAction action) =>
-    G4Store.loading();
+    state.copyWith(isLoading: true);
 
 G4Store _onErrorPosts(G4Store state, FetchPostsErrorAction action) =>
-    G4Store.error();
+    state.copyWith(hasError: true);
 
 G4Store _onResultPosts(G4Store state, FetchPostsResultAction action) =>
-    G4Store(posts: action.posts, isLoading: false);
+    // G4Store(posts: action.posts, isLoading: false);
+    state.copyWith(posts: action.posts, isLoading: false);
 
 G4Store _onChangeOffset(G4Store state, FetchPostsChangeOffsetAction action) =>
-    G4Store.pageOffset(action.pageOffset);
+    // G4Store.pageOffset(action.pageOffset);
+    state.copyWith(pageOffset: action.pageOffset);
 
