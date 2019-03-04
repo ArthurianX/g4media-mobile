@@ -1,6 +1,4 @@
-import 'package:g4mediamobile/src/models/post_entity.dart';
 import 'package:g4mediamobile/src/services/g4media_search_api.dart';
-import 'package:redux/redux.dart';
 import 'package:g4mediamobile/src/services/githup_search_api.dart';
 
 enum CurrentScreen { home, about_us, settings, contact, feedback }
@@ -18,7 +16,6 @@ class G4Store {
   final CurrentScreen currentScreen;
 
   G4Store({
-    // this.result,
     this.posts,
     this.result,
     this.hasError = false,
@@ -36,4 +33,6 @@ class G4Store {
   factory G4Store.loading() => G4Store(isLoading: true);
 
   factory G4Store.error() => G4Store(hasError: true);
+
+  factory G4Store.pageOffset(offset) => G4Store(pageOffset: offset + 1);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:redux/redux.dart';
@@ -19,12 +20,14 @@ void main() {
       middleware: [
         // SearchMiddleware(GithubApi()),
         // EpicMiddleware<G4Store>(SearchEpic(GithubApi())),
+        RefreshMiddleware(G4MediaApi()),
         EpicMiddleware<G4Store>(PostsEpic(G4MediaApi())),
+        MergePostsMiddleware(G4MediaApi()),
         new LoggingMiddleware.printer()
       ]);
 
   // Do a initial call for posts
-  store.dispatch(FetchPostsAction(''));
+  store.dispatch(FetchPostsAction(FetchPostsEnumType.fresh));
 
   runApp(new G4MediaMobile(
     store: store,

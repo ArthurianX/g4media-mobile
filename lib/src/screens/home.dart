@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:g4mediamobile/src/components/posts/posts.dart';
@@ -11,14 +13,18 @@ import 'package:g4mediamobile/src/screens/search_github.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key}) : super(key: key);
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+
 
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<G4Store, HomeScreenViewModel>(
       converter: (store) {
+        _handleRefresh(_refreshIndicatorKey);
         // Get the latest posts
         return HomeScreenViewModel(
-          state: store.state
+          state: store.state,
+          store: store,
         );
       },
       builder: (BuildContext context, HomeScreenViewModel vm) {
@@ -38,10 +44,25 @@ class HomeScreen extends StatelessWidget {
 //            fit: StackFit.loose,
 //            children: <Widget>[SearchGithubScreen(vm), MumuGithubScreen(vm)],
 //          ),
-          body: PostsList(vm),
+          body: new RefreshIndicator(
+              key: _refreshIndicatorKey,
+              onRefresh: () {
+                /// https://github.com/flutter/flutter/blob/f408bb06f9361793ca85493c38d809ee1e2f7e30/examples/flutter_gallery/lib/demo/material/overscroll_demo.dart#L54
+                /// Might consider switching to display the RefreshIndicator a different way
+                final action = new RefreshCompletableAction();
+                vm.store.dispatch(action);
+                return action.completer.future;
+              },
+              child: PostsList(vm)
+          ),
           drawer: MyDrawer()
         );
       },
     );
   }
+}
+
+_handleRefresh(_refreshIndicatorKey) async {
+  // new Timer(const Duration(seconds: 5), () { _refreshIndicatorKey.currentState.show(); });
+  // new Timer(const Duration(seconds: 15), () { _refreshIndicatorKey.dispose(); });
 }

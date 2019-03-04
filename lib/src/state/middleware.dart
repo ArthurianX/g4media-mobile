@@ -107,20 +107,110 @@ class PostsEpic implements EpicClass<G4Store> {
     // Don't start searching until the user pauses for 250ms
         .debounce(new Duration(milliseconds: 250))
     // Cancel the previous search and start a new one with switchMap
-        .switchMap((action) => _search(action.queryParams));
+        .switchMap((action) => _search(action.fetchType, store));
   }
 
   // Use the async* function to make our lives easier
-  Stream<dynamic> _search(String queryParams) async* {
+  Stream<dynamic> _search(FetchPostsEnumType fetchType, store) async* {
     // Dispatch a SearchLoadingAction to show a loading spinner
     yield FetchPostsLoadingAction();
 
+    var query = '';
+    if (fetchType == FetchPostsEnumType.paged) {
+      query = '?per_page=${store.state.pageSize}&offset=${store.state.pageOffset + 1}';
+      yield FetchPostsChangeOffsetAction(store.state.pageOffset);
+    } else {
+      // Yield to reset page offset ?! pfffbbttt
+    }
+
     try {
       // If the api call is successful, dispatch the results for display
-      yield FetchPostsResultAction(await api.search(queryParams));
+      yield FetchPostsProcessAction(await api.search(query));
     } catch (e) {
       // If the search call fails, dispatch an error so we can show it
       yield FetchPostsErrorAction();
     }
+  }
+}
+
+/// This is a duplicate of PostsEpic, but in another way, to
+/// support .completers for the refresh indicator.
+/// There must be a better way to do this.
+class RefreshMiddleware implements MiddlewareClass<G4Store> {
+  final G4MediaApi api;
+
+  Timer _timer;
+  CancelableOperation<Store<G4Store>> _operation;
+
+  RefreshMiddleware(this.api);
+
+  @override
+  void call(Store<G4Store> store, dynamic action, NextDispatcher next) {
+    if (action is RefreshCompletableAction) {
+      // Stop our previous debounce timer and search.
+      _timer?.cancel();
+      _operation?.cancel();
+
+      // Don't start searching until the user pauses for 250ms. This will stop
+      // us from over-fetching from our backend.
+      _timer = new Timer(new Duration(milliseconds: 250), () {
+        store.dispatch(FetchPostsLoadingAction());
+
+        // Instead of a simple Future, we'll use a CancellableOperation from the
+        // `async` package. This will allow us to cancel the previous operation
+        // if a new Search term comes in. This will prevent us from
+        // accidentally showing stale results.
+        _operation = CancelableOperation.fromFuture(
+            api
+                .search('') // TODO: Maybe add the term here ?
+                .then((result) => store..dispatch(FetchPostsResultAction(result)))
+                .catchError((e, s) => store..dispatch(FetchPostsErrorAction()))
+                .whenComplete(action.completer.complete)
+
+        );
+      });
+    }
+
+    // Make sure to forward actions to the next middleware in the chain!
+    next(action);
+  }
+}
+
+
+/// Merge Posts Middleware - Add new posts to already existing ones, keeping the new ones up top.
+class MergePostsMiddleware implements MiddlewareClass<G4Store> {
+  final G4MediaApi api;
+
+
+  MergePostsMiddleware(this.api);
+
+  @override
+  void call(Store<G4Store> store, dynamic action, NextDispatcher next) {
+    if (action is FetchPostsProcessAction) {
+      // Merge posts
+
+      // At the end
+
+      print('MergePostsMiddleware');
+      print(store.state.posts);
+      print(action.posts);
+
+      var results = store.state.posts;
+
+      if (store.state.posts == null) {
+        results = action.posts;
+      } else {
+        // TODO: Service to actually so
+        action.posts.items.map((item) {
+          results.items.add(item);
+        });
+      }
+
+      store..dispatch(FetchPostsResultAction(results));
+
+    }
+
+    // Make sure to forward actions to the next middleware in the chain!
+    next(action);
   }
 }

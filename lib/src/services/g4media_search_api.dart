@@ -32,6 +32,9 @@ class G4MediaApi {
 //  }
 
   Future<FetchPostsResult> search(String term) async {
+    // '?per_page=${store.state.pageSize}&offset=0'
+    print('G4MediaApi.search');
+    print(term);
     final result = await _fetchResults(term);
     return result;
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g4mediamobile/src/components/posts/post_card.dart';
 import 'package:g4mediamobile/src/models/models.dart';
+import 'package:g4mediamobile/src/state/actions.dart';
 
 class PostsList extends StatelessWidget {
   final HomeScreenViewModel vm;
@@ -37,19 +38,27 @@ class PostsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: vm.state.posts !=null && vm.state.posts.items.length > 0 ? vm.state.posts.items.length : 0,
-      // itemCount: vm.state.posts.items.isNotEmpty ? vm.state.posts.items.length : 1,
-      itemBuilder: (_, index) {
-        if (vm.state.posts == null) {
-          return new Container();
-        } else {
-          final Widget listTile = index == vm.state.posts.items.length // check if the list has reached its end, if reached end initiate refresh and return refresh indicator
-              ? _reachedEnd() // Initiate refresh and get Refresh Widget
-              : PostCard(vm.state.posts.items[index]);
-          return listTile;
+    return new NotificationListener<ScrollNotification>(
+      onNotification: (scrollNotification) {
+        if (scrollNotification is ScrollEndNotification && scrollNotification.metrics.pixels > 100.0 && scrollNotification.metrics.atEdge) {
+          vm.store.dispatch(FetchPostsAction(FetchPostsEnumType.paged));
         }
       },
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: vm.state.posts !=null && vm.state.posts.items.length > 0 ? vm.state.posts.items.length : 0,
+        // itemCount: vm.state.posts.items.isNotEmpty ? vm.state.posts.items.length : 1,
+        itemBuilder: (_, index) {
+          if (vm.state.posts == null) {
+            return new Container();
+          } else {
+            final Widget listTile = index == vm.state.posts.items.length // check if the list has reached its end, if reached end initiate refresh and return refresh indicator
+                ? _reachedEnd() // Initiate refresh and get Refresh Widget
+                : PostCard(vm.state.posts.items[index]);
+            return listTile;
+          }
+        },
+      ),
     );
   }
 }
