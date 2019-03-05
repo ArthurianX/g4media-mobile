@@ -1,4 +1,4 @@
-package com.example.g4mediamobile;
+package com.karthurk.g4mediamobile;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
