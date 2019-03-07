@@ -13,15 +13,13 @@ import 'package:g4mediamobile/src/state/actions.dart';
 import 'package:g4mediamobile/src/state/g4_store.dart';
 import 'package:g4mediamobile/src/state/reducers.dart';
 import 'package:g4mediamobile/src/state/middleware.dart';
-// import 'package:g4mediamobile/src/services/githup_search_api.dart';
 import 'package:g4mediamobile/src/screens/home.dart';
 
 void main() async {
-
   final persistor = Persistor<G4Store>(
     storage: FlutterStorage(),
     serializer: JsonSerializer<G4Store>(G4Store.fromJson),
-    debug: true,
+    // debug: true,
   );
 
   // Load initial state

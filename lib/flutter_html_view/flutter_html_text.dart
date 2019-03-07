@@ -106,6 +106,10 @@ class HtmlText extends StatelessWidget {
     s = s.replaceAll('&amp;', '&');
     s = s.replaceAll('&lt;', '<');
     s = s.replaceAll('&gt;', '>');
+    s = s.replaceAll('&#8221;', '”');
+    s = s.replaceAll('&#8222;', '„');
+    s = s.replaceAll('&#8230;', '…');
+    s = s.replaceAll('&#8211;', '–');
 
     if (node['tag'] == 'a') {
       span = new TextSpan(

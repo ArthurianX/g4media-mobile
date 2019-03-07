@@ -1,9 +1,10 @@
+import 'package:g4mediamobile/src/services/utils.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 class PostEntity{
   final int id;
-  final String date;
+  final dynamic date;
   final String modified;
   final String slug;
   final String status;
@@ -23,9 +24,11 @@ class PostEntity{
   });
 
   static PostEntity fromJson(Map<String,dynamic> json){
+    var date = DateTime.parse(json['date']);
+    var image = json['jetpack_featured_media_url'] != '' ? json['jetpack_featured_media_url'] : 'https://via.placeholder.com/600x400?text=G4';
     return PostEntity(
       id: json['id'],
-      date: json['date'],
+      date: '${date.day} ${G4Utils.months[date.month - 1]} ${date.year}',
       modified: json['modified'],
       slug: json['slug'],
       status: json['status'],
@@ -37,7 +40,7 @@ class PostEntity{
       author: json['author'],
       categories: json['categories'],
       tags: json['tags'],
-      jetpack_featured_media_url: json['jetpack_featured_media_url'],
+      jetpack_featured_media_url: image,
       jetpack_shortlink: json['jetpack_shortlink'],
     );
   }
