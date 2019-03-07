@@ -29,7 +29,7 @@ void main() async {
 
   final store = Store<G4Store>(
       searchReducer,
-      initialState: initialState ?? G4Store.initial(), // TODO: Which one wins here ?
+      initialState: initialState ?? G4Store.initial(),
       middleware: [
         // SearchMiddleware(GithubApi()),
         // EpicMiddleware<G4Store>(SearchEpic(GithubApi())),
