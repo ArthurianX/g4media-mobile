@@ -21,7 +21,7 @@ class G4Store {
     this.hasError = false,
     this.isLoading = false,
     this.darkTheme = false,
-    this.pageSize = 15,
+    this.pageSize = 30,
     this.pageOffset = 0,
     this.currentPost,
     this.currentScreen = CurrentScreen.home,
@@ -55,9 +55,29 @@ class G4Store {
   factory G4Store.initial() =>
       new G4Store(result: SearchResult.noTerm());
 
-//  factory G4Store.loading() => G4Store(isLoading: true);
-//
-//  factory G4Store.error() => G4Store(hasError: true);
-//
-//  factory G4Store.pageOffset(offset) => G4Store(pageOffset: offset + 1);
+  static G4Store fromJson(dynamic json) =>
+      G4Store(
+        posts: new FetchPostsResult(SearchResultKind.empty, []) ?? json["posts"] as FetchPostsResult,
+//        result: new SearchResult(SearchResultGithubKind.empty, []) ?? json["result"] as SearchResult,
+        hasError: false ?? json["hasError"] as bool,
+        isLoading: false ?? json["isLoading"] as bool,
+        darkTheme: false ?? json["darkTheme"] as bool,
+        pageSize: 15 ?? json["pageSize"] as int,
+        pageOffset: 0 ?? json["pageOffset"] as int,
+        currentPost: 0 ?? json["currentPost"] as int,
+        currentScreen: CurrentScreen.home ?? json["currentScreen"] as CurrentScreen,
+      );
+
+  dynamic toJson() => {
+    'posts': posts.toJson(),
+//    'result': result,
+    'hasError': hasError,
+    'isLoading': isLoading,
+    'darkTheme': darkTheme,
+    'pageSize': pageSize,
+    'pageOffset': pageOffset,
+    'currentPost': currentPost,
+    'currentScreen': currentScreen.toString(),
+  };
+
 }

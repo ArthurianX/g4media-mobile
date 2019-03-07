@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html_textview/flutter_html_textview.dart';
+import 'package:g4mediamobile/flutter_html_view/flutter_html_text.dart';
 import 'package:share/share.dart';
 
 import 'package:g4mediamobile/src/models/post_entity.dart';
@@ -130,7 +130,7 @@ void showItem(BuildContext context, PostEntity post) {
                       height: 300.0,
                       width: MediaQuery.of(context).size.width,
                     ),
-                    new HtmlTextView(data: post.content),
+                    new HtmlText(data: post.content),
                   ]
                 ),
               ),

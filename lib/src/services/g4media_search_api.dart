@@ -77,5 +77,15 @@ class FetchPostsResult {
   bool get isEmpty => kind == SearchResultKind.empty;
 
   bool get isNoTerm => kind == SearchResultKind.noTerm;
+
+//  static FetchPostsResult fromJson(dynamic json) => FetchPostsResult(
+//    json['kind'] as SearchResultKind,
+//    json['items'].map( (item) => PostEntity.fromJson(item) )
+//  );
+
+  dynamic toJson() => {
+    'posts': items.length > 0 ? items.map((PostEntity post) => post.toJson()).toString(): '',
+    'kind': kind.toString(),
+  };
 }
 

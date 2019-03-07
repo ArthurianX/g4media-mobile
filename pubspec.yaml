@@ -28,8 +28,18 @@ dependencies:
   redux_epics: 0.10.4
   rxdart: ^0.20.0
   redux_logging: 0.3.0
-  flutter_html_textview: ^0.2.6
+  redux_persist: 0.8.2
+  redux_persist_flutter: 0.8.1
   share: 0.6.0+1
+  # Stuff for flutter_html_view to work
+  flutter_custom_tabs: ^0.5.0
+  html: ^0.13.4+1
+  video_player: ^0.10.0+2
+  cached_network_image: ^0.6.2
+  flutter_markdown: ^0.2.0
+  html2md: ^0.3.0
+  # ^ Stuff for flutter_html_view to work
+
 
 dev_dependencies:
   flutter_test:

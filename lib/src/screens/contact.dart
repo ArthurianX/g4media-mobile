@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html_textview/flutter_html_textview.dart';
+import 'package:g4mediamobile/flutter_html_view/flutter_html_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:g4mediamobile/src/models/models.dart';
@@ -40,7 +40,7 @@ class ContactScreen extends StatelessWidget {
 //            children: <Widget>[SearchGithubScreen(vm), MumuGithubScreen(vm)],
 //          ),
           body: new Container(
-            child: new HtmlTextView(data: _aboutText),
+            child: new HtmlText(data: _aboutText),
           ),
           drawer: MyDrawer()
         );

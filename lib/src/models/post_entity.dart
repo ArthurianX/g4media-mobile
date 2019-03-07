@@ -60,19 +60,3 @@ class PostEntity{
     'jetpack_shortlink': jetpack_shortlink,
   };
 }
-
-//class SearchResultItem {
-//  final String fullName;
-//  final String url;
-//  final String avatarUrl;
-//
-//  SearchResultItem(this.fullName, this.url, this.avatarUrl);
-//
-//  factory SearchResultItem.fromJson(Map<String, Object> json) {
-//    return new SearchResultItem(
-//      json['full_name'] as String,
-//      json["html_url"] as String,
-//      (json["owner"] as Map<String, Object>)["avatar_url"] as String,
-//    );
-//  }
-//}
