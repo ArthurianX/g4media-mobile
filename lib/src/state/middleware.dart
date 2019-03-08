@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:async/async.dart';
+import 'package:g4mediamobile/src/services/utils.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -117,8 +118,8 @@ class PostsEpic implements EpicClass<G4Store> {
 
     var query = '';
     if (fetchType == FetchPostsEnumType.paged) {
-      query = '?per_page=${store.state.pageSize}&offset=${store.state.pageOffset + 1}';
-      yield FetchPostsChangeOffsetAction(store.state.pageOffset + 1);
+      query = '?per_page=${store.state.pageSize}&offset=${store.state.pageOffset + 10}';
+      yield FetchPostsChangeOffsetAction(store.state.pageOffset + 10);
     } else {
       // Yield to reset page offset ?! pfffbbttt
     }
@@ -195,7 +196,7 @@ class MergePostsMiddleware implements MiddlewareClass<G4Store> {
       if (store.state.posts == null) {
         results = new FetchPostsResult(SearchResultKind.populated, action.posts.items);
       } else {
-        results = new FetchPostsResult(SearchResultKind.populated, [store.state.posts.items, action.posts.items].expand((x) => x).toList());
+        results = new FetchPostsResult(SearchResultKind.populated, G4Utils.mergePosts(store.state.posts.items, action.posts.items));
       }
 
       print('Total Posts');

@@ -24,7 +24,7 @@ class DonateWidget extends StatelessWidget {
                   'Doneaza pentru presa pe care o sustii',
                   style: new TextStyle(
                     fontFamily: 'SourceSansPro',
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF15202A),
                   ),

@@ -22,6 +22,7 @@ class PostsList extends StatelessWidget {
         separatorBuilder: (context, index) => Divider(
           color: Colors.black26,
         ),
+        cacheExtent: 400,
         itemCount: vm.state.posts !=null && vm.state.posts.items.length > 0 ? vm.state.posts.items.length + 1 : 0,
 
         itemBuilder: (_, index) {

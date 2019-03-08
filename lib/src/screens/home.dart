@@ -1,26 +1,24 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:g4mediamobile/src/components/posts/posts.dart';
 
 import 'package:g4mediamobile/src/models/models.dart';
+import 'package:g4mediamobile/src/services/utils.dart';
 import 'package:g4mediamobile/src/state/g4_store.dart';
 import 'package:g4mediamobile/src/state/actions.dart';
 
 import 'package:g4mediamobile/src/components/drawer_menu.dart';
-import 'package:g4mediamobile/src/screens/search_github.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key}) : super(key: key);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<G4Store, HomeScreenViewModel>(
       converter: (store) {
-        _handleRefresh(_refreshIndicatorKey);
         // Get the latest posts
         return HomeScreenViewModel(
           state: store.state,
@@ -29,10 +27,16 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (BuildContext context, HomeScreenViewModel vm) {
         return new Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
-            // Here we take the value from the HomeScreen object that was created by
-            // the App.build method, and use it to set our appbar title.
-            // title: Text(widget.title),
+            leading: IconButton(
+              icon: Icon(Icons.menu),
+              tooltip: 'Open Drawer',
+              onPressed: () {
+                G4Utils.changeStatusBarLight(true);
+                _scaffoldKey.currentState.openDrawer();
+              },
+            ),
             elevation: 1,
             centerTitle: true,
             titleSpacing: 0.0,
@@ -60,9 +64,4 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
-}
-
-_handleRefresh(_refreshIndicatorKey) async {
-  // new Timer(const Duration(seconds: 5), () { _refreshIndicatorKey.currentState.show(); });
-  // new Timer(const Duration(seconds: 15), () { _refreshIndicatorKey.dispose(); });
 }

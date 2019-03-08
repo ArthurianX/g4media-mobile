@@ -39,7 +39,7 @@ dependencies:
   flutter_markdown: ^0.2.0
   html2md: ^0.3.0
   # ^ Stuff for flutter_html_view to work
-  # https://pub.dartlang.org/packages/flutter_statusbarcolor <<<
+  flutter_statusbarcolor: 0.2.0
   simple_moment: 1.0.2
 
 
