@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -24,8 +25,11 @@ class PostCard extends StatelessWidget {
               // margin: new EdgeInsets.only(right: 16.0),
               child: new Hero(
                 tag: post.slug,
-                child: new Image.network(
-                  post.jetpack_featured_media_url,
+
+                child: new CachedNetworkImage(
+                  imageUrl: post.jetpack_featured_media_url,
+                  placeholder: (context, url) => new CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => new Icon(Icons.error),
                   fit: BoxFit.cover,
                   height: 196.0,
                   width: MediaQuery.of(context).size.width,

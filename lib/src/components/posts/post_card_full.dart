@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -22,10 +23,7 @@ class PostCardFull extends StatelessWidget {
           image: new DecorationImage(
             fit: BoxFit.cover,
             colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken),
-            image: new NetworkImage(
-              post.jetpack_featured_media_url,
-
-            ),
+            image: new CachedNetworkImageProvider(post.jetpack_featured_media_url),
           ),
         ),
         child: new Column(
