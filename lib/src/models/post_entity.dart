@@ -45,6 +45,27 @@ class PostEntity{
     );
   }
 
+  static PostEntity fromReduxJson(Map<String,dynamic> json){
+    var image = json['jetpack_featured_media_url'] != '' ? json['jetpack_featured_media_url'] : 'https://via.placeholder.com/600x400?text=G4';
+    return PostEntity(
+      id: json['id'],
+      date: json['date'],
+      modified: json['modified'],
+      slug: json['slug'],
+      status: json['status'],
+      type: json['type'],
+      link: json['link'],
+      title: json['title'],
+      content: json['content'],
+      excerpt: json['excerpt'],
+      author: json['author'],
+      categories: json['categories'],
+      tags: json['tags'],
+      jetpack_featured_media_url: image,
+      jetpack_shortlink: json['jetpack_shortlink'],
+    );
+  }
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'date': date,

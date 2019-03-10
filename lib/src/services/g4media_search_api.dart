@@ -84,8 +84,13 @@ class FetchPostsResult {
 //  );
 
   dynamic toJson() => {
-    'posts': items.length > 0 ? items.map((PostEntity post) => post.toJson()).toString(): '',
+    'posts': items.length > 0 ? _stringifyPosts(items): '',
     'kind': kind.toString(),
   };
 }
 
+_stringifyPosts(posts){
+  var list = posts.map((PostEntity post) => post.toJson()).toList();
+  // Properly stringify list so it can be easily decoded.
+  return jsonEncode(list).toString();
+}
